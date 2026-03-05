@@ -1,0 +1,32 @@
+// Thay YOUR_SPREADSHEET_ID bằng Spreadsheet ID của bạn
+const SPREADSHEET_ID = '11uW1tnOpPFVtuhqtDgvTjWZXwR84AaZbref1EvuVJJ4';
+const SHEET_NAME = 'Sheet1';
+
+// Hàm xử lý yêu cầu POST từ ESP32
+function doPost(e) {
+  try {
+    // Lấy dữ liệu JSON từ yêu cầu
+    const data = JSON.parse(e.postData.contents);
+    
+    // Lấy sheet
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEET_NAME);
+    
+    
+    // Ghi dữ liệu vào sheet
+    sheet.appendRow([
+      data.ID,
+      data.HeartRate,
+      data.BreathRate,
+      data.Height,
+      data.Weight,
+      data.BMI
+    ]);
+    
+    // Trả về phản hồi thành công
+    return ContentService.createTextOutput('Success').setMimeType(ContentService.MimeType.TEXT);
+  } catch (error) {
+    // Trả về lỗi nếu có
+    return ContentService.createTextOutput('Error: ' + error.message).setMimeType(ContentService.MimeType.TEXT);
+  }
+}

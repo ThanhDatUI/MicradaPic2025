@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        text-align: center;
+        background-color: #f4f4f9;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      input[type="text"] {
+        padding: 10px;
+        width: 200px;
+        margin: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      #result {
+        margin-top: 20px;
+        text-align: left;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fafafa;
+      }
+      .error {
+        color: red;
+        font-weight: bold;
+      }
+      h2 {
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Tra cứu thông số sức khỏe</h2>
+      <label for="idInput">Nhập ID:</label>
+      <input type="text" id="idInput" placeholder="VD: 1" onkeypress="if(event.key === 'Enter') searchData()">
+      <button onclick="searchData()">Tìm kiếm</button>
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function searchData() {
+        var id = document.getElementById('idInput').value.trim();
+        if (!id || isNaN(id)) {
+          document.getElementById('result').innerHTML = '<p class="error">Vui lòng nhập ID hợp lệ (số)!</p>';
+          return;
+        }
+        document.getElementById('result').innerHTML = 'Đang tìm kiếm...';
+        google.script.run
+          .withSuccessHandler(displayResult)
+          .withFailureHandler(showError)
+          .getDataById(id);
+      }
+
+      function displayResult(data) {
+        var resultDiv = document.getElementById('result');
+        if (data.error) {
+          resultDiv.innerHTML = `<p class="error">${data.error}</p>`;
+          return;
+        }
+        resultDiv.innerHTML = `
+          <h3>Kết quả cho ID: ${data.ID}</h3>
+          <p><b>Nhịp tim:</b> ${data.HeartRate} bpm</p>
+          <p><b>Nhịp thở:</b> ${data.BreathRate} rpm</p>
+          <p><b>Chiều cao:</b> ${data.Height} cm</p>
+          <p><b>Cân nặng:</b> ${data.Weight} kg</p>
+          <p><b>BMI:</b> ${data.BMI}</p>
+        `;
+      }
+
+      function showError(error) {
+        document.getElementById('result').innerHTML = `<p class="error">Lỗi: ${error.message}</p>`;
+      }
+    </script>
+  </body>
+</html>
