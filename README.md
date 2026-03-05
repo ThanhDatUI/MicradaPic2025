@@ -182,6 +182,6 @@ CTRL: GPIO 2
 - LCD hiển thị lỗi và trạng thái
 
 ## 👥 Tác giả
-**DATN 2025** - ESP32 Health Monitor với OTA  
+ESP32 Health Monitor với OTA  
 **Version**: 2.0 (OTA Enabled)  
 **Platform**: PlatformIO + ESP32
