@@ -1,5 +1,5 @@
 # ESP32 Health Monitor - DATN 2025
-
+![M](Img/IMG_0222.JPEG)
 ## 📊 Tổng quan
 Hệ thống đo sức khỏe tự động sử dụng ESP32 với các tính năng:
 - Đo nhịp tim và nhịp thở (Radar 60GHz MR60BHA1)
